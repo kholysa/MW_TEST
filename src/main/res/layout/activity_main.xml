@@ -8,16 +8,31 @@
     tools:context="residence.kholy.mobeewaveinterview.MainActivity">
 
     <TextView
-        android:id="@+id/CommandAPDUTextOutput"
+        android:id="@+id/EncryptionTextOutput"
         android:layout_width="362dp"
         android:layout_height="26dp"
+        android:layout_marginTop="397dp"
         android:padding="10px"
-        android:text="Command APDU"
+        android:text="Encryption"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginTop="219dp"
-        tools:layout_editor_absoluteX="16dp" />
+        android:layout_marginStart="16dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/commandAPDUOutput"
+        android:layout_width="0dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="242dp"
+        android:padding="10px"
+        android:text="Command APDU Header"
+        app:layout_constraintLeft_toLeftOf="@+id/commandADPULe"
+        app:layout_constraintRight_toRightOf="@+id/EncryptionTextOutput"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <EditText
         android:id="@+id/commandADPUHeader"
@@ -84,18 +99,33 @@
         tools:layout_constraintTop_creator="1" />
 
     <Button
-        android:id="@+id/updateAPDUButton"
+        android:id="@+id/encryptLeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onEncryptButtonClick"
+        android:text="encrypt Data"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/EncryptionTextOutput"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="172dp"
         android:onClick="onAPDUButtonClick"
         android:text="Update byte output"
-        app:layout_constraintBottom_toTopOf="@+id/CommandAPDUTextOutput"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commandADPUHeader"
-        app:layout_constraintVertical_bias="0.255"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginLeft="193dp" />
+        app:layout_constraintBottom_toTopOf="@+id/commandAPDUOutput"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginBottom="43dp"
+        app:layout_constraintTop_toTopOf="@+id/commandADPUData" />
 
 </android.support.constraint.ConstraintLayout>

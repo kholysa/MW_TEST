@@ -9,6 +9,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     TextView CommandAPDUTextOutput;
+    TextView CommandEncryptionTextOutput;
+
     EditText CommandAPDUHeader;
     EditText CommandAPDULc;
     EditText CommandAPDUData;
@@ -23,25 +25,40 @@ public class MainActivity extends AppCompatActivity {
         CommandAPDUData = (EditText) findViewById(R.id.commandADPUData);
         CommandAPDULe = (EditText) findViewById(R.id.commandADPULe);
 
-        CommandAPDUTextOutput = (TextView) findViewById(R.id.CommandAPDUTextOutput);
+        CommandAPDUTextOutput = (TextView) findViewById(R.id.commandAPDUOutput);
+        CommandEncryptionTextOutput = (TextView) findViewById(R.id.EncryptionTextOutput);
 
     }
 
     public void onAPDUButtonClick (View v) {
+
+        //TODO: Method to split one byte stream into header, Lc, data, Le byte arrays
+
         byte[] userAPDUHeader = hexStringToByteArray(CommandAPDUHeader.getText().toString());
         byte[] userAPDULc = hexStringToByteArray(CommandAPDULc.getText().toString());
         byte[] userAPDUData = hexStringToByteArray(CommandAPDUData.getText().toString());
         byte[] userAPDULe = hexStringToByteArray(CommandAPDULe.getText().toString());
-
         CommandAPDU commandAPDU = commandAPDUFactory(userAPDUHeader, userAPDULc, userAPDUData, userAPDULe);
+        if (commandAPDU.isValid()) {
+            CommandAPDUTextOutput.setText(byteArrayToHex(userAPDUHeader));
 
-        String userAPDUInputAsString = "";
-        for (byte singleByte : userAPDUHeader) {
-            userAPDUInputAsString += ""+ singleByte;
+        } else {
+            CommandAPDUTextOutput.setText("INVALID APDU CLASS");
         }
-        CommandAPDUTextOutput.setText(userAPDUInputAsString);
 
     }
+    public void onEncryptButtonClick (View v) {
+        byte[] userAPDUData = hexStringToByteArray(CommandAPDUData.getText().toString());
+        Encryption encryption = new Encryption();
+        encryption.encryptBytes(userAPDUData);
+        String userAPDUDataAsString = "";
+        for (byte singleByte : userAPDUData) {
+            userAPDUDataAsString += ""+ singleByte;
+        }
+        CommandEncryptionTextOutput.setText(userAPDUDataAsString);
+
+    }
+
 
     /**
      * Method which takes as input the hexadecimal string representation of an APDU section, and returns a byte array
@@ -57,6 +74,18 @@ public class MainActivity extends AppCompatActivity {
                     + Character.digit(s.charAt(i+1), 16));
         }
         return data;
+    }
+
+    /**
+     * Method to convert byte array to hex string, taken from https://stackoverflow.com/questions/9655181/how-to-convert-a-byte-array-to-a-hex-string-in-java
+     * @param a byte array
+     * @return string of hex representation of byte array
+     */
+    public static String byteArrayToHex(byte[] a) {
+        StringBuilder sb = new StringBuilder(a.length * 2);
+        for(byte b: a)
+            sb.append(String.format("%02x", b));
+        return sb.toString();
     }
 
 
