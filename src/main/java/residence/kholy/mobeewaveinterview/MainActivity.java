@@ -50,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
     public void onEncryptButtonClick (View v) {
         byte[] userAPDUData = hexStringToByteArray(CommandAPDUData.getText().toString());
         Encryption encryption = new Encryption();
+        encryption.decryptBytes(userAPDUData);
         encryption.encryptBytes(userAPDUData);
         String userAPDUDataAsString = "";
         for (byte singleByte : userAPDUData) {
-            userAPDUDataAsString += ""+ singleByte;
+            userAPDUDataAsString += " "+ String.format("%02X", singleByte);
         }
-        CommandEncryptionTextOutput.setText(userAPDUDataAsString);
 
+        CommandEncryptionTextOutput.setText(userAPDUDataAsString);
     }
 
 
