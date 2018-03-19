@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         CommandAPDUTextOutput = (TextView) findViewById(R.id.commandAPDUOutput);
         CommandEncryptionTextOutput = (TextView) findViewById(R.id.EncryptionTextOutput);
-
     }
 
     public void onAPDUButtonClick (View v) {
@@ -45,19 +44,20 @@ public class MainActivity extends AppCompatActivity {
         } else {
             CommandAPDUTextOutput.setText("INVALID APDU CLASS");
         }
-
     }
     public void onEncryptButtonClick (View v) {
-        byte[] userAPDUData = hexStringToByteArray(CommandAPDUData.getText().toString());
+        byte[] userAPDUData = hexStringToByteArray("af8211dbdbd908129bd8");
+
         Encryption encryption = new Encryption();
         encryption.decryptBytes(userAPDUData);
-        encryption.encryptBytes(userAPDUData);
+        TLVContainer tlvTemp = new TLVContainer(userAPDUData);
+
         String userAPDUDataAsString = "";
         for (byte singleByte : userAPDUData) {
             userAPDUDataAsString += " "+ String.format("%02X", singleByte);
         }
 
-        CommandEncryptionTextOutput.setText(userAPDUDataAsString);
+        CommandEncryptionTextOutput.setText(new String(tlvTemp.getTlvs().get(0).getValue()));
     }
 
 
